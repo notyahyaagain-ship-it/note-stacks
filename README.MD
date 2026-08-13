@@ -19,3 +19,23 @@ We are deeply committed to collaborative development and believe that the best t
 
 Ready to get started? You can access the live application right now:
 *   **Web Version:** https://notyahyaagain-ship-it.github.io/note-stacks/
+### 📱 Android Installation Guide
+
+1. **Download the APK:**
+   * Go to the **[Releases](../../releases)** page on the right side of this repository.
+   * Download the latest `.apk` assets.
+
+2. **Allow Installation from Unknown Sources:**
+   * Open the downloaded file using your browser or file manager.
+   * If prompted by Android, tap **Settings** and toggle **Allow from this source** to enable sideloading.
+
+3. **Navigating Google Play Protect Warnings:**
+   * Because Note Stacks is a self-distributed, open-source app and not downloaded directly from the Play Store, **Google Play Protect** may display a warning such as *"Unsafe app blocked"* or *"Blocked by Play Protect"*.
+   * **To proceed:**
+     1. Tap **More details** (or the small dropdown arrow) inside the Play Protect pop-up.
+     2. Select **Install anyway**.
+   * *(Optional)* If Play Protect asks to send the app to Google for a scan, you can choose to send or skip based on your preference.
+
+4. **Launch Note Stacks:**
+   * Once installed, open Note Stacks from your app drawer and you're good to
+go!
