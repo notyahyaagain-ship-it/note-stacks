@@ -39,3 +39,4 @@ Ready to get started? You can access the live application right now:
 4. **Launch Note Stacks:**
    * Once installed, open Note Stacks from your app drawer and you're good to
 go!
+ 
