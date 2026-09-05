@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" id="themeColorMeta" content="#F0F0EF">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
@@ -21,7 +21,7 @@
     font-style: normal;
     font-weight: 400 700;
     font-display: swap;
-    src: url(IBMPlexSansArabic.woff) format('woff');
+    src: url(fonts/IBMPlexSansArabic.woff) format('woff');
   }
 
   @font-face {
@@ -30,7 +30,7 @@
     font-weight: 400;
     font-display: swap;
     unicode-range: U+2190-21FF, U+2600-26FF, U+2700-27BF, U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+1F900-1F9FF, U+1FA70-1FAFF, U+FE0F, U+200D, U+20E3;
-    src: url(JoyPixels.woff) format('woff');
+    src: url(fonts/JoyPixels.woff) format('woff');
   }
 
   @font-face {
@@ -38,14 +38,14 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(GoogleSansRounded-Regular.woff) format('woff');
+    src: url(fonts/GoogleSansRounded-Regular.woff) format('woff');
   }
   @font-face {
     font-family: 'Google Sans Rounded';
     font-style: normal;
     font-weight: 500 700;
     font-display: swap;
-    src: url(GoogleSansRounded-Medium.woff) format('woff');
+    src: url(fonts/GoogleSansRounded-Medium.woff) format('woff');
   }
 
   /* ---------------------------------------------------------
@@ -892,9 +892,23 @@
     <input class="dialog-title" id="dialogTitle" placeholder="Title" dir="auto" data-i18n-placeholder="titlePlaceholder">
     <textarea class="dialog-content" id="dialogContent" placeholder="Note" dir="auto" data-i18n-placeholder="notePlaceholder"></textarea>
     <div class="swatch-row" id="dialogSwatches"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin:8px 0 2px;">
+      <button class="icon-btn" id="reminderBtn" aria-label="Set reminder">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      </button>
+      <span id="reminderLabel" style="font-size:12px;color:var(--on-surface-var);flex:1;" data-i18n="noReminderSet">No reminder set</span>
+      <button class="icon-btn" id="reminderClearBtn" aria-label="Clear reminder" hidden>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <input type="datetime-local" id="reminderInput" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
+    </div>
+    <p style="font-size:11px;color:var(--on-surface-var);margin:0 0 4px;line-height:1.4;" data-i18n="reminderLimitHint">Reminders work best while the app is open — not a guaranteed alarm if it's fully closed.</p>
   </div>
   <div class="dialog-footer">
     <div style="display:flex;gap:4px;">
+      <button class="btn btn-text" id="dialogLockBtn">
+        <svg class="icon" id="dialogLockIcon" style="width:18px;height:18px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span id="dialogLockLabel">Lock</span>
+      </button>
       <button class="btn btn-text" id="dialogArchive">
         <svg class="icon" style="width:18px;height:18px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"></rect><path d="M3 8l2-4h14l2 4"></path><line x1="10" y1="13" x2="14" y2="13"></line></svg><span id="dialogArchiveLabel">Archive</span>
       </button>
@@ -903,6 +917,21 @@
       </button>
     </div>
     <button class="btn btn-tonal" id="dialogClose" data-i18n="doneBtn">Done</button>
+  </div>
+</div>
+
+<div class="scrim" id="pwScrim"></div>
+<div class="dialog dialog-sm" id="pwDialog" role="dialog" aria-modal="true">
+  <div class="dialog-body">
+    <h2 id="pwDialogTitle" style="margin:0 0 8px;font-size:17px;font-weight:500;">Set a password</h2>
+    <p id="pwDialogHint" style="margin:0 0 10px;color:var(--on-surface-var);font-size:13px;line-height:1.5;"></p>
+    <input type="password" class="onboard-input" id="pwInput1" placeholder="Password" style="margin-bottom:10px;" autocomplete="new-password">
+    <input type="password" class="onboard-input" id="pwInput2" placeholder="Confirm password" style="margin-bottom:4px;" autocomplete="new-password">
+    <p id="pwError" style="color:#ff6b6b;font-size:12px;margin:4px 0 0;" hidden></p>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-text" id="pwCancel" data-i18n="cancelBtn">Cancel</button>
+    <button class="btn btn-tonal" id="pwSubmit" data-i18n="confirmBtn">Confirm</button>
   </div>
 </div>
 
@@ -1168,6 +1197,83 @@
 
   function uid(){ return 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
+  /* ---------------- Note password protection (real encryption) ---------------- */
+  function bufToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+  function b64ToBuf(b64){
+    const bin = atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for(let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return arr.buffer;
+  }
+  async function deriveNoteKey(password, salt){
+    const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 150000, hash: 'SHA-256' },
+      baseKey, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+    );
+  }
+  async function encryptNoteContent(title, body, password){
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveNoteKey(password, salt);
+    const plaintext = new TextEncoder().encode(JSON.stringify({ title, body }));
+    const cipherBuf = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext);
+    return { encBlob: bufToB64(cipherBuf), salt: bufToB64(salt), iv: bufToB64(iv) };
+  }
+  async function decryptNoteContent(note, password){
+    const salt = new Uint8Array(b64ToBuf(note.salt));
+    const iv = new Uint8Array(b64ToBuf(note.iv));
+    const key = await deriveNoteKey(password, salt);
+    const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, b64ToBuf(note.encBlob));
+    return JSON.parse(new TextDecoder().decode(plainBuf));
+  }
+
+  function askPassword({ title, hint, confirm }){
+    const pwDialog = document.getElementById('pwDialog');
+    const pwScrim = document.getElementById('pwScrim');
+    const pwInput1 = document.getElementById('pwInput1');
+    const pwInput2 = document.getElementById('pwInput2');
+    const pwError = document.getElementById('pwError');
+    const pwSubmitBtn = document.getElementById('pwSubmit');
+    const pwCancelBtn = document.getElementById('pwCancel');
+
+    return new Promise((resolve) => {
+      document.getElementById('pwDialogTitle').textContent = title;
+      document.getElementById('pwDialogHint').textContent = hint || '';
+      pwInput1.value = '';
+      pwInput2.value = '';
+      pwInput2.style.display = confirm ? 'block' : 'none';
+      pwError.hidden = true;
+      pwScrim.classList.add('open');
+      pwDialog.classList.add('open');
+      setTimeout(() => pwInput1.focus(), 80);
+
+      function cleanup(){
+        pwScrim.classList.remove('open');
+        pwDialog.classList.remove('open');
+        pwSubmitBtn.removeEventListener('click', onSubmit);
+        pwCancelBtn.removeEventListener('click', onCancel);
+        pwInput1.removeEventListener('keydown', onKeydown);
+      }
+      function onSubmit(){
+        const p1 = pwInput1.value;
+        const p2 = pwInput2.value;
+        if(!p1){ pwError.textContent = t('pwRequired'); pwError.hidden = false; return; }
+        if(confirm && p1 !== p2){ pwError.textContent = t('pwMismatch'); pwError.hidden = false; return; }
+        cleanup();
+        resolve(p1);
+      }
+      function onCancel(){ cleanup(); resolve(null); }
+      function onKeydown(e){ if(e.key === 'Enter') onSubmit(); }
+      pwSubmitBtn.addEventListener('click', onSubmit);
+      pwCancelBtn.addEventListener('click', onCancel);
+      pwInput1.addEventListener('keydown', onKeydown);
+    });
+  }
+
+  let currentUnlockPassword = null;
+
+
   /* ---------------- i18n ---------------- */
   const LANG_KEY = 'app-lang';
   let currentLang = 'en';
@@ -1227,6 +1333,17 @@
       fontSavedOk: 'applied and saved.',
       undo: 'Undo',
       colorDefault: 'Default', colorCoral: 'Coral', colorSand: 'Sand', colorSage: 'Sage', colorSky: 'Sky', colorLav: 'Lavender', colorRose: 'Rose',
+      confirmBtn: 'Confirm',
+      noReminderSet: 'No reminder set', reminderLimitHint: "Reminders work best while the app is open — not a guaranteed alarm if it's fully closed.",
+      reminderDefaultTitle: 'Note reminder', reminderDueSnackbar: 'Reminder: {title}',
+      removeLockBtn: 'Remove lock',
+      setPasswordTitle: 'Set a password', setPasswordHint: "You'll need this password to open this note again. There's no way to recover it if you forget it.",
+      unlockTitle: 'Enter password', unlockHint: 'This note is locked.',
+      pwRequired: 'Enter a password.', pwMismatch: "Passwords don't match.",
+      wrongPasswordSnackbar: 'Wrong password', noteLockedSnackbar: 'Note locked', lockRemovedSnackbar: 'Lock removed',
+      cryptoUnavailableSnackbar: "Locking notes needs a secure connection (HTTPS) — not available opening this file directly.",
+      lockedNoteLabel: 'Locked note', lockedNoteHint: 'Tap to unlock', lockedReminderBody: 'You have a reminder on a locked note.',
+      confirmRemoveLockTitle: 'Remove password?', confirmRemoveLockBody: 'This note will no longer be encrypted or require a password to open.',
       settingsPlugins: 'Plugins', importPluginBtn: 'Import plugin', pluginWarning: 'Plugins run code in your app — only add ones you trust.',
       openPluginBtn: 'Open', examplePluginsLabel: 'Examples', addBtn: 'Add',
       pluginParseError: "That file doesn't look like a valid plugin.", pluginInstalled: '{name} installed',
@@ -1287,6 +1404,17 @@
       fontSavedOk: '.تم تطبيقه وحفظه',
       undo: 'تراجع',
       colorDefault: 'افتراضي', colorCoral: 'مرجاني', colorSand: 'رملي', colorSage: 'أخضر مريمي', colorSky: 'سماوي', colorLav: 'خزامى', colorRose: 'وردي',
+      confirmBtn: 'تأكيد',
+      noReminderSet: 'لا يوجد تذكير', reminderLimitHint: '.التذكيرات تعمل بشكل أفضل والتطبيق مفتوح — ليست منبهًا مضمونًا إذا كان مغلقًا تمامًا',
+      reminderDefaultTitle: 'تذكير الملاحظة', reminderDueSnackbar: 'تذكير: {title}',
+      removeLockBtn: 'إزالة القفل',
+      setPasswordTitle: 'تعيين كلمة مرور', setPasswordHint: '.ستحتاج لهذه الكلمة لفتح هذه الملاحظة مجددًا. لا توجد طريقة لاستعادتها إذا نسيتها',
+      unlockTitle: 'أدخل كلمة المرور', unlockHint: '.هذه الملاحظة مقفلة',
+      pwRequired: '.أدخل كلمة مرور', pwMismatch: '.كلمتا المرور غير متطابقتين',
+      wrongPasswordSnackbar: 'كلمة مرور خاطئة', noteLockedSnackbar: 'تم قفل الملاحظة', lockRemovedSnackbar: 'تمت إزالة القفل',
+      cryptoUnavailableSnackbar: '.قفل الملاحظات يتطلب اتصالاً آمنًا (HTTPS) — غير متاح عند فتح هذا الملف مباشرة',
+      lockedNoteLabel: 'ملاحظة مقفلة', lockedNoteHint: 'اضغط للفتح', lockedReminderBody: '.لديك تذكير على ملاحظة مقفلة',
+      confirmRemoveLockTitle: 'إزالة كلمة المرور؟', confirmRemoveLockBody: '.لن تكون هذه الملاحظة مشفرة أو تتطلب كلمة مرور بعد الآن',
       settingsPlugins: 'الإضافات', importPluginBtn: 'استيراد إضافة', pluginWarning: '.الإضافات تشغّل كودًا داخل تطبيقك — أضف فقط ما تثق به',
       openPluginBtn: 'فتح', examplePluginsLabel: 'أمثلة', addBtn: 'إضافة',
       pluginParseError: '.هذا الملف لا يبدو إضافة صالحة', pluginInstalled: 'تم تثبيت {name}',
@@ -1962,7 +2090,7 @@
     const body = composeBody.value.trim();
     if(!title && !body){ closeCompose(true); return; }
     notes.unshift({
-      id: uid(), title, body, color: composeColor, archived: false, updatedAt: Date.now()
+      id: uid(), title, body, color: composeColor, archived: false, locked: false, reminder: null, reminderFired: false, updatedAt: Date.now()
     });
     closeCompose(true);
     await persist();
@@ -2058,6 +2186,8 @@
     dialogColor = note.color;
     refreshDialogSwatches();
     updateDialogArchiveLabel(note.archived);
+    refreshReminderUI(note);
+    updateDialogLockUI(note);
     scrim.classList.add('open');
     dialog.classList.add('open');
     setTimeout(() => dialogTitle.focus(), 80);
@@ -2076,6 +2206,7 @@
     scrim.classList.remove('open');
     dialog.classList.remove('open');
     editingId = null;
+    currentUnlockPassword = null;
   }
   function debouncedSave(){
     clearTimeout(saveDebounce);
@@ -2085,8 +2216,17 @@
     if(!editingId) return;
     const n = notes.find(x => x.id === editingId);
     if(!n) return;
-    n.title = dialogTitle.value.trim();
-    n.body = dialogContent.value.trim();
+    if(n.locked && currentUnlockPassword){
+      const enc = await encryptNoteContent(dialogTitle.value.trim(), dialogContent.value.trim(), currentUnlockPassword);
+      n.encBlob = enc.encBlob;
+      n.salt = enc.salt;
+      n.iv = enc.iv;
+      n.title = '';
+      n.body = '';
+    } else {
+      n.title = dialogTitle.value.trim();
+      n.body = dialogContent.value.trim();
+    }
     n.color = dialogColor;
     n.updatedAt = Date.now();
     await persist();
@@ -2118,6 +2258,124 @@
     await toggleArchive(id);
   });
 
+  /* ---------------- Note lock (password) ---------------- */
+  function updateDialogLockUI(note){
+    const label = document.getElementById('dialogLockLabel');
+    label.textContent = note.locked ? t('removeLockBtn') : t('lockBtn');
+  }
+  document.getElementById('dialogLockBtn').addEventListener('click', async () => {
+    const n = notes.find(x => x.id === editingId);
+    if(!n) return;
+    if(!window.crypto || !window.crypto.subtle){
+      showSnackbar(t('cryptoUnavailableSnackbar'));
+      return;
+    }
+    if(n.locked){
+      requestConfirm({ type: 'remove-lock', id: n.id });
+      return;
+    }
+    const pw = await askPassword({ title: t('setPasswordTitle'), hint: t('setPasswordHint'), confirm: true });
+    if(!pw) return;
+    const enc = await encryptNoteContent(dialogTitle.value.trim(), dialogContent.value.trim(), pw);
+    n.locked = true;
+    n.encBlob = enc.encBlob;
+    n.salt = enc.salt;
+    n.iv = enc.iv;
+    n.title = '';
+    n.body = '';
+    n.updatedAt = Date.now();
+    currentUnlockPassword = null;
+    await persist();
+    closeDialog();
+    render();
+    showSnackbar(t('noteLockedSnackbar'));
+  });
+
+  async function unlockAndOpen(note){
+    if(!window.crypto || !window.crypto.subtle){
+      showSnackbar(t('cryptoUnavailableSnackbar'));
+      return;
+    }
+    const pw = await askPassword({ title: t('unlockTitle'), hint: t('unlockHint'), confirm: false });
+    if(!pw) return;
+    try{
+      const { title, body } = await decryptNoteContent(note, pw);
+      currentUnlockPassword = pw;
+      openDialog({ ...note, title, body });
+    } catch(e){
+      showSnackbar(t('wrongPasswordSnackbar'));
+    }
+  }
+
+  /* ---------------- Reminders ---------------- */
+  const reminderBtn = document.getElementById('reminderBtn');
+  const reminderLabel = document.getElementById('reminderLabel');
+  const reminderClearBtn = document.getElementById('reminderClearBtn');
+  const reminderInput = document.getElementById('reminderInput');
+
+  function formatReminderDate(ts){
+    return new Date(ts).toLocaleString(currentLang === 'ar' ? 'ar-EG' : undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  }
+  function refreshReminderUI(note){
+    if(note.reminder){
+      reminderLabel.textContent = formatReminderDate(note.reminder);
+      reminderClearBtn.hidden = false;
+    } else {
+      reminderLabel.textContent = t('noReminderSet');
+      reminderClearBtn.hidden = true;
+    }
+  }
+  function toDatetimeLocalValue(d){
+    const pad = (x) => String(x).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  reminderBtn.addEventListener('click', async () => {
+    if('Notification' in window && Notification.permission === 'default'){
+      try{ await Notification.requestPermission(); } catch(e){ /* ignore */ }
+    }
+    const n = notes.find(x => x.id === editingId);
+    reminderInput.value = (n && n.reminder) ? toDatetimeLocalValue(new Date(n.reminder)) : '';
+    if(reminderInput.showPicker) reminderInput.showPicker();
+    else reminderInput.click();
+  });
+  reminderInput.addEventListener('change', async () => {
+    const n = notes.find(x => x.id === editingId);
+    if(!n || !reminderInput.value) return;
+    n.reminder = new Date(reminderInput.value).getTime();
+    n.reminderFired = false;
+    refreshReminderUI(n);
+    await persist();
+  });
+  reminderClearBtn.addEventListener('click', async () => {
+    const n = notes.find(x => x.id === editingId);
+    if(!n) return;
+    n.reminder = null;
+    n.reminderFired = false;
+    refreshReminderUI(n);
+    await persist();
+  });
+  function fireReminderNotification(n){
+    const title = n.locked ? t('lockedNoteLabel') : (n.title || t('reminderDefaultTitle'));
+    const body = n.locked ? t('lockedReminderBody') : (n.body || '').slice(0, 120);
+    if('Notification' in window && Notification.permission === 'granted'){
+      try{ new Notification(title, { body }); } catch(e){ /* some contexts restrict this constructor */ }
+    }
+    showSnackbar(t('reminderDueSnackbar').replace('{title}', title));
+  }
+  async function checkReminders(){
+    const now = Date.now();
+    let changed = false;
+    notes.forEach(n => {
+      if(n.reminder && !n.reminderFired && n.reminder <= now){
+        n.reminderFired = true;
+        changed = true;
+        fireReminderNotification(n);
+      }
+    });
+    if(changed) await persist();
+  }
+  setInterval(checkReminders, 20000);
+
   /* ---------------- Delete confirmation dialog ---------------- */
   const confirmScrim = document.getElementById('confirmScrim');
   const confirmDialog = document.getElementById('confirmDialog');
@@ -2126,8 +2384,11 @@
   let pendingDelete = null;
 
   function requestConfirm(target){
-    // target: 'ALL' (all notes) | noteId (string) | { type:'research', id } | { type:'reset-app' }
+    // target: 'ALL' (all notes) | noteId (string) | { type:'research', id } | { type:'reset-app' } | { type:'remove-lock', id }
     pendingDelete = target;
+    const confirmActionBtn = document.getElementById('confirmDeleteBtn');
+    confirmActionBtn.className = 'btn btn-danger';
+    confirmActionBtn.textContent = t('deleteBtn');
     if(target === 'ALL'){
       confirmTitle.textContent = t('confirmDeleteAllTitle');
       confirmBody.textContent = t('confirmDeleteAllBody');
@@ -2137,6 +2398,11 @@
     } else if(target && target.type === 'reset-app'){
       confirmTitle.textContent = t('confirmResetTitle');
       confirmBody.textContent = t('confirmResetBody');
+    } else if(target && target.type === 'remove-lock'){
+      confirmTitle.textContent = t('confirmRemoveLockTitle');
+      confirmBody.textContent = t('confirmRemoveLockBody');
+      confirmActionBtn.className = 'btn btn-tonal';
+      confirmActionBtn.textContent = t('removeLockBtn');
     } else {
       confirmTitle.textContent = t('confirmDeleteNoteTitle');
       confirmBody.textContent = t('confirmDeleteNoteBody');
@@ -2163,6 +2429,22 @@
       researches = researches.filter(r => r.id !== target.id);
       await persistResearches();
       renderResearchList();
+    } else if(target && target.type === 'remove-lock'){
+      const n = notes.find(x => x.id === target.id);
+      if(n && n.locked){
+        n.title = dialogTitle.value.trim();
+        n.body = dialogContent.value.trim();
+        n.locked = false;
+        delete n.encBlob;
+        delete n.salt;
+        delete n.iv;
+        n.updatedAt = Date.now();
+        currentUnlockPassword = null;
+        await persist();
+        closeDialog();
+        render();
+        showSnackbar(t('lockRemovedSnackbar'));
+      }
     } else if(target && target.type === 'reset-app'){
       const keys = ['notes-data', 'theme-pref', 'app-initialized', 'nickname', 'onboarded', 'researches-data', 'research-unlocked', 'monet-seed', 'split-view', 'app-font', 'note-density', 'default-note-color', 'custom-font-data', 'app-lang', 'installed-plugins', 'ui-style'];
       for(const k of keys){ await storageDelete(k); }
@@ -2346,13 +2628,13 @@
 
     const title = document.createElement('h3');
     title.className = 'note-title';
-    title.textContent = n.title;
+    title.textContent = n.locked ? t('lockedNoteLabel') : n.title;
     title.dir = 'auto';
-    if(!n.title) title.style.display = 'none';
+    if(!n.locked && !n.title) title.style.display = 'none';
 
     const body = document.createElement('p');
     body.className = 'note-body';
-    body.textContent = n.body;
+    body.textContent = n.locked ? t('lockedNoteHint') : n.body;
     body.dir = 'auto';
 
     const meta = document.createElement('div');
@@ -2360,7 +2642,20 @@
 
     const date = document.createElement('span');
     date.className = 'note-date';
-    date.textContent = formatDate(n.updatedAt);
+    date.style.display = 'flex';
+    date.style.alignItems = 'center';
+    date.style.gap = '5px';
+    if(n.locked){
+      const lockIcon = document.createElement('span');
+      lockIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+      date.appendChild(lockIcon);
+    }
+    if(n.reminder){
+      const bellIcon = document.createElement('span');
+      bellIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>';
+      date.appendChild(bellIcon);
+    }
+    date.appendChild(document.createTextNode(formatDate(n.updatedAt)));
 
     const tools = document.createElement('div');
     tools.className = 'note-tools';
@@ -2394,7 +2689,7 @@
     card.appendChild(body);
     card.appendChild(meta);
 
-    card.addEventListener('click', () => openDialog(n));
+    card.addEventListener('click', () => n.locked ? unlockAndOpen(n) : openDialog(n));
     return card;
   }
 
@@ -2433,7 +2728,7 @@
 
     if(savedNotesRes && savedNotesRes.value){
       try{
-        notes = JSON.parse(savedNotesRes.value).map(n => ({ archived: false, ...n }));
+        notes = JSON.parse(savedNotesRes.value).map(n => ({ archived: false, locked: false, reminder: null, reminderFired: false, ...n }));
       } catch(e){ notes = []; }
     } else if(!initFlagRes){
       const who = nickname ? `Welcome, ${nickname}!` : 'Welcome to Note Stacks';
@@ -2455,6 +2750,7 @@
     updateStorageStatus();
     updateChromeVisibility();
     render();
+    checkReminders();
   }
   function setResearchUnlockedUI(){
     document.getElementById('tabResearch').hidden = false;
