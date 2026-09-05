@@ -18,7 +18,7 @@ We are deeply committed to collaborative development and believe that the best t
 ### Try It Out Today
 
 Ready to get started? You can access the live application right now:
-*   **Web Version:** https://notyahyaagain-ship-it.github.io/note-stacks/
+*   **Web Version:** jupiter.notestacks.com
 ### 📱 Android Installation Guide
 
 1. **Download the APK:**
